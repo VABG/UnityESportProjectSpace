@@ -10,6 +10,7 @@ public class shot : MonoBehaviour
     void Start()
     {
         GetComponent<Rigidbody>().velocity = new Vector3(0, 0, shotSpeed);
+        Destroy(gameObject, 4.5f);
     }
 
     // Update is called once per frame

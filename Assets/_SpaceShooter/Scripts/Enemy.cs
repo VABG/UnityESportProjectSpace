@@ -6,6 +6,9 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float speed = 10;
     [SerializeField] private float randomDistance = 5;
+    [SerializeField] private float health = 10;
+    [SerializeField] ParticleSystem deadPFX;
+
     Vector3 dir = Vector3.back;
     Rigidbody rb;
 
@@ -26,8 +29,25 @@ public class Enemy : MonoBehaviour
         
     }
 
+    public void Damage(float dmg)
+    {
+        health -= dmg;
+        if (health <= 0) Die();
+    }
+
+    private void Die()
+    {
+        Destroy(this.gameObject);
+        // PFX
+        ParticleSystem pfx = Instantiate(deadPFX.GetComponent<ParticleSystem>(), transform.position, transform.rotation);
+        pfx.GetComponent<Rigidbody>().velocity = this.rb.velocity;
+        float scale = Random.Range(.5f, 1.5f);
+        pfx.transform.localScale = new Vector3(scale, scale, scale);
+        Destroy(pfx.gameObject, pfx.main.startLifetime.constantMax);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        Damage(20);
     }
 }

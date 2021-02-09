@@ -111,6 +111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   randomDistance: 10.99
+  health: 10
+  deadPFX: {fileID: 6215059384095257266, guid: 9870d4dbf736da74394776e128a6df9c, type: 3}
 --- !u!54 &6980921039958257446
 Rigidbody:
   m_ObjectHideFlags: 0
