@@ -38,11 +38,15 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         Destroy(this.gameObject);
+
         // PFX
         ParticleSystem pfx = Instantiate(deadPFX.GetComponent<ParticleSystem>(), transform.position, transform.rotation);
         pfx.GetComponent<Rigidbody>().velocity = this.rb.velocity;
+       
+        
         float scale = Random.Range(.5f, 1.5f);
         pfx.transform.localScale = new Vector3(scale, scale, scale);
+
         Destroy(pfx.gameObject, pfx.main.startLifetime.constantMax);
     }
 

@@ -9,19 +9,21 @@ public class Laser : MonoBehaviour
     [SerializeField] ParticleSystem particles;
     private AudioSource sound;
     private float laserLength = 50;
+    private float targetVolume = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         sound = GetComponent<AudioSource>();
         sound.Play();
-        sound.Pause();
+        sound.volume = 0;
+        //sound.Pause();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        sound.volume = Mathf.Lerp(sound.volume, targetVolume, Time.deltaTime * 10);
     }
 
     public void FireLaser()
@@ -34,9 +36,12 @@ public class Laser : MonoBehaviour
             //hit.collider är det strålen kolliderade med
             //Där man kolliderade >> hit.point
             actualLaser.transform.localScale = new Vector3(1, 1, hit.distance);
-            if (!sound.isPlaying) sound.UnPause();
+
+            //if (!sound.isPlaying) sound.UnPause();
             //PFX
             if(!particles.isPlaying) particles.Play();
+            targetVolume = 1;
+
             particles.transform.position = hit.point;
 
             Enemy e = hit.collider.GetComponent<Enemy>();
@@ -48,9 +53,9 @@ public class Laser : MonoBehaviour
         }
         else
         {
-            sound.Pause();
+            //sound.Pause();
+            targetVolume = 0;
             actualLaser.transform.localScale = new Vector3(1, 1, laserLength);
-
             //PFX
             particles.transform.position = transform.position + new Vector3(0,0,100);
         }

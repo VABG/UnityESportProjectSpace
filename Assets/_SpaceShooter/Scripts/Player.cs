@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform barrel;
     [SerializeField] Transform playerTransform;
     [SerializeField] ParticleSystem deathPFX;
+
     private AudioSource audioSource;
 
     private Rigidbody rb;
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(shot, barrel.position, Quaternion.identity);
+            //SFX
             audioSource.Play();
         }
 
@@ -56,8 +58,6 @@ public class Player : MonoBehaviour
             //PFX
             ParticleSystem pfx = Instantiate(deathPFX.GetComponent<ParticleSystem>(), transform.position, transform.rotation);
             pfx.GetComponent<Rigidbody>().velocity = this.rb.velocity;
-            float scale = Random.Range(.5f, 1.5f);
-            pfx.transform.localScale = new Vector3(scale, scale, scale);
             Destroy(pfx.gameObject, pfx.main.startLifetime.constantMax);
         }
 
